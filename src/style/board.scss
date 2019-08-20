@@ -1,0 +1,167 @@
+.board-wrapper {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+}
+
+.board {
+    position: relative;
+    width: 90vmin;
+    height: 90vmin;
+    margin: 0 auto;
+    border: 4vmin solid $color-board;
+    border-radius: 1vmin;
+    background: $color-board;
+    box-shadow: 0 .5vmin darken($color-board, 20%);
+
+    .fields {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+
+        .row {
+            display: flex;
+            flex-basis: 0;
+            flex-grow: 1;
+        }
+
+        .field {
+            flex-basis: 0;
+            flex-grow: 1;
+            margin: .4vmin;
+            // border: .2vmin solid #fff;
+
+            @each $name, $color in $figure-colors {
+                &.#{$name} {
+                    background: lighten($color, 5%);
+                    box-shadow: 0 .3vmin darken($color, 20%);
+                }
+            }
+        }
+    }
+
+    .figures {
+        .figure {
+            position: absolute;
+            width: calc(100%/8);
+            height: calc(100%/8);
+
+            .circle,
+            .selection-ring {
+                position: absolute;
+                top: 12%;
+                right: 12%;
+                bottom: 12%;
+                left: 12%;
+                border-radius: 50%;
+            }
+
+            .circle {
+                box-shadow: 0 .3vmin rgba(0, 0, 0, .2);
+            }
+
+            .marker {
+                position: absolute;
+                top: 25%;
+                right: 25%;
+                bottom: 25%;
+                left: 25%;
+                border-radius: 50%;
+            }
+
+            .select-marker {
+                position: absolute;
+                top: 20%;
+                right: 20%;
+                bottom: 20%;
+                left: 20%;
+                // transition: opacity .2s ease;
+                border-radius: 50%;
+                opacity: 0;
+            }
+
+            &.player-1 {
+                .circle,
+                .select-marker {
+                    background: $color-player-1;
+                }
+            }
+
+            &.player-2 {
+                .circle,
+                .select-marker {
+                    background: $color-player-2;
+                }
+            }
+
+
+            &.selected {
+                .selection-ring {
+                    // box-shadow: 0 0 0 1vmin rgba(255, 255, 255, .3);
+                    animation: highlight 2s ease-in-out infinite;
+                }
+
+                .select-marker {
+                    // animation: glow 1.2s ease infinite;
+                    // animation-delay: 0s, .5s;
+                    opacity: 1;
+                }
+            }
+
+            @each $name, $color in $figure-colors {
+                &.#{$name} {
+                    .marker {
+                        background: $color;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: .8;
+    }
+}
+
+@keyframes glow {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    70% {
+        opacity: .6;
+    }
+
+    90% {
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+@keyframes highlight {
+    0%,
+    100% {
+        box-shadow: 0 0 0 .5vmin rgba(255, 255, 255, .6);
+    }
+
+    50% {
+        box-shadow: 0 0 0 1vmin rgba(255, 255, 255, .6);
+    }
+}
